@@ -284,6 +284,37 @@
   });
   
   
+  // virtualSelectInput functions
+  var virtualSelectInputFeedback = $.extend({}, baseInputFeedback, {
+    "find": function(inputId) {
+      var input = findInput(inputId);
+      var label = input.siblings("label");
+      var formGroup = input.parent();
+      
+      return {
+        "input": input,
+        "label": label,
+        "formGroup": formGroup
+      };
+    },
+    
+    /* Icon has custom right margin */
+    "setIcon": function(inputObject, message) {
+      if (message.icon) {
+        
+        //obj.input.parent().css("padding-right", 0);
+        
+        $("<span id='" + message.inputId + 
+        "-icon' class='form-control-feedback' style='color: " + message.color + 
+        "; margin-right: 15px;'>" + message.icon + 
+        "</span>").insertBefore(inputObject.input);
+      } else {
+        $("#" + message.inputId + "-icon").remove();
+      }
+    }
+  });
+  
+  
   // fileInputFeedback functions
   var fileInputFeedback = $.extend({}, baseInputFeedback, {
     "find": function(inputId) {
@@ -353,6 +384,7 @@
     {name: "shiny.textInput", feedback: textInputFeedback},
     {name: "shiny.pickerInput", feedback: pickerInputFeedback},
     {name: "shinyWidgets.pickerInput", feedback: pickerInputFeedback},
+    {name: "shinyWidgets.virtualSelectBinding", feedback: virtualSelectInputFeedback},
     {name: "shinyWidgets.autonumericInput", feedback: numericInputFeedback},
     {name: "shiny.fileInputBinding", feedback: fileInputFeedback}
   ];
